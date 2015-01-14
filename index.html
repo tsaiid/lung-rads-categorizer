@@ -287,13 +287,19 @@
                         } else if ((exam == 'b' && (size >= 6 && size < 8)) ||
                             (others == 'new' && (size >= 4 && size < 6))) {
                             lung_rads = '3';
+                            if (has_suspicion)
+                                lung_rads = '4X';
                         } else if ((others == 'new' && (size >= 6 && size < 8)) ||
                             (others == 'g' && size < 8) ||
                             (exam == 'b' && size >= 8 && size < 15)) {
                             lung_rads = '4A';
+                            if (has_suspicion)
+                                lung_rads = '4X';
                         } else if (size >= 15 ||
                             (others == 'new' || others == 'g' && size >= 8)) {
                             lung_rads = '4B';
+                            if (has_suspicion)
+                                lung_rads = '4X';
                         } else if (others == 'nc') {
                             lung_rads = '2';
                         } else {
@@ -310,17 +316,23 @@
                             if (exam == 'f' && others == 'nc') {
                                 lung_rads = '2';
                             }
+                            if (has_suspicion)
+                                lung_rads = '4X';
                         } else if (solid_size >= 8 ||
                             (solid_others == 'new' || solid_others == 'g' && solid_size >= 4)) {
                             lung_rads = '4B';
                             if (exam == 'f' && others == 'nc') {
                                 lung_rads = '2';
                             }
+                            if (has_suspicion)
+                                lung_rads = '4X';
                         } else if (size >= 6 && ((solid_size >= 6 && solid_size < 8) || (solid_others == 'new' || solid_others == 'g' && solid_size < 4))) {
                             lung_rads = '4A';
                             if (exam == 'f' && others == 'nc') {
                                 lung_rads = '2';
                             }
+                            if (has_suspicion)
+                                lung_rads = '4X';
                         } else {
                             lung_rads = '?! ps ?!';
                         }
@@ -334,6 +346,8 @@
                             lung_rads = '2';
                         } else if ((exam == 'b' || others == 'new') && size >= 20) {
                             lung_rads = '3';
+                            if (has_suspicion)
+                                lung_rads = '4X';
                         } else if ((others == 'g' || has_suspicion) && size >= 20) {
                             lung_rads = '4X';
                         } else {
