@@ -8,12 +8,32 @@
     <title>Lung RADS</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <style>
+    .lung-rads-box-header {
+        padding: 5px 0 5px 0;
+        background: #5bc0de;
+        border-bottom: 10px solid #0099b5;
+        text-align: center;
+    }
+    .lung-rads-box-body {
+        margin-top: 10px;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+    .lung-rads-box {
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .2);
+        border: 1px solid #0099b5;
+        border-bottom: 10px solid #0099b5;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    </style>
 </head>
 
 <body>
     <div class="container">
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-7">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Pulmonary Nodule</h3>
@@ -88,15 +108,35 @@
                 </form>
             </div>
 
-            <div class="col-md-4">
-
-                <div class="ui circular segment">
-                    <div class="ui statistic">
-                        <div class="value" id="lung_rads">
-                            2
-                        </div>
-                        <div class="label">
-                            Lung-RADS
+            <div class="col-md-5">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-xs-offset-1 col-xs-10 lung-rads-box">
+                                <div class="lung-rads-box-header">
+                                    <h1 id="lung_rads">?</h1>
+                                    <h5 id="lung_rads_category"></h5>
+                                    <div class="label">Lung-RADS</div>
+                                </div>
+                                <div class="lung-rads-box-body">
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Descriptor</h3>
+  </div>
+  <div class="panel-body">
+                                    <p id="lung_rads_descriptor"></p>
+  </div>
+</div>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Management</h3>
+  </div>
+  <div class="panel-body">
+                                    <p id="lung_rads_management"></p>
+  </div>
+</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -108,6 +148,30 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
     <script type="text/javascript">
+    lung_rads_category = [
+        "Incomplete",
+        "Negative",
+        "Benign Appearance or Behavior",
+        "Probably Benign",
+        "Suspicious"
+    ];
+
+    lung_rads_descriptor = [
+        "-",
+        "No nodules and definitely benign nodules",
+        "Nodules with a very low likelyhood of becoming a clinically active cancer due to size or lack of growth",
+        "Probably benign findings - short term follow up suggested; includes nodules with a low likelihood of becoming a clinically active cancer",
+        "Findings for which additional diagnostic testing and/or tissue sampling if recommended",
+    ];
+
+    lung_rads_management = [
+        "Additional lung cancer screening CT images and/or comparison to prior chest CT examinations is needed",
+        "Continue annual screening with LDCT in 12 months",
+        "6 month LDCT",
+        "3 month LDCT; PET/CT may be used when there is a ≥ 8 mm solid component",
+        "Chest CT with or without contrast, PET/CT and/or tissue sampling depending on the *probability of malignancy and comorbidities. PET/CT may be used when there is a ≥ 8 mm solid component"
+    ];
+
     function calculate_rads() {
         size = $('#size input').val();
         solid_size = $('#solid_size input').val();
@@ -173,7 +237,11 @@
                 }
 
                 // update innertext
+                lung_rads_no = parseInt(lung_rads)
                 $('#lung_rads').text(lung_rads)
+                $('#lung_rads_category').text(lung_rads_category[lung_rads_no])
+                $('#lung_rads_descriptor').text(lung_rads_descriptor[lung_rads_no])
+                $('#lung_rads_management').text(lung_rads_management[lung_rads_no])
             }
         } else {
             //alert($('#size').val());
