@@ -3,138 +3,178 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Lung RADS</title>
 
-    <link href="dist/semantic.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
 </head>
 
 <body>
-    <div class="ui grid">
-        <div class="eight wide column">
-
-            <h4 class="ui block top attached header">Pulmonary Nodule</h4>
-            <div class="ui bottom attached secondary segment">
-
-
-                <div class="ui large form segment">
-                    <div class="field">
-                        <label>Size</label>
-
-                        <div class="ui right labeled input">
-                            <input type="text" id="size" placeholder="">
-                            <div class="ui label">
-                                mm
-                            </div>
-                        </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Pulmonary Nodule</h3>
                     </div>
+                    <div class="panel-body">
+                        <form class="form-inline">
 
-                    <div class="field" id="texture">
-                        <label>Texture</label>
-                        <div class="grouped inline fields">
-                            <div class="field">
-                                <div class="ui radio checkbox">
-                                    <input type="radio" name="texture" value="s">
-                                    <label>Solid</label>
-                                </div>
+                            <div class="" id="texture">
+                                <h5>Texture</h5>
+                                <label class="radio-inline">
+                                    <input type="radio" name="texture" id="" value="s"> Solid
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="texture" id="" value="ps"> Part solid
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="texture" id="" value="ns"> Non-solid
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="texture" id="" value="eb"> Endobronchial
+                                </label>
                             </div>
-                            <div class="field">
-                                <div class="ui radio checkbox">
-                                    <input type="radio" name="texture" value="ps">
-                                    <label>Part solid</label>
-                                </div>
-                            </div>
-                            <div class="field">
-                                <div class="ui radio checkbox">
-                                    <input type="radio" name="texture" value="ns">
-                                    <label>Non-solid</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="field" id="others">
-                        <label>New</label>
 
-                        <div class="grouped inline fields">
-                            <div class="field">
-                                <div class="ui radio checkbox">
-                                    <input type="radio" name="others" value="new">
-                                    <label>New</label>
+                            <h5>Size</h5>
+                            <div class="input-group" id="size">
+                                <span class="input-group-addon">Total</span>
+                                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                                <span class="input-group-addon">mm</span>
+                            </div>
+
+                            <div class="form-group" id="solid_others">
+                                <label class="radio-inline">
+                                    <input type="radio" name="solid_others" id="" value="new"> New
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="solid_others" id="" value="g"> Growing
+                                </label>
+
+                                <div class="input-group" id="solid_size">
+                                    <span class="input-group-addon">Solid</span>
+                                    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                                    <span class="input-group-addon">mm</span>
                                 </div>
                             </div>
-                            <div class="field">
-                                <div class="ui radio checkbox">
-                                    <input type="radio" name="others" value="growing">
-                                    <label>Growing</label>
-                                </div>
+
+                            <div class="" id="exam">
+                                <h5>Exam</h5>
+                                <label class="radio-inline">
+                                    <input type="radio" name="exam" id="" value="b"> Baseline
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="exam" id="" value="f"> Follow-up
+                                </label>
                             </div>
-                            <div class="field">
-                                <div class="ui radio checkbox">
-                                    <input type="radio" name="others" value="no_change">
-                                    <label>No Change</label>
-                                </div>
+
+                            <div class="" id="others">
+                                <h5>Follow-up</h5>
+                                <label class="radio-inline">
+                                    <input type="radio" name="others" id="" value="new"> New
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="others" id="" value="g"> Growing
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="others" id="" value="nc"> No Change
+                                </label>
                             </div>
-                        </div>
                     </div>
                 </div>
+
+                </form>
             </div>
-        </div>
 
-        <div class="eight wide column">
+            <div class="col-md-4">
 
-            <div class="ui circular segment">
-                <div class="ui statistic">
-                    <div class="value" id="lung_rads">
-                        2
-                    </div>
-                    <div class="label">
-                        Lung-RADS
+                <div class="ui circular segment">
+                    <div class="ui statistic">
+                        <div class="value" id="lung_rads">
+                            2
+                        </div>
+                        <div class="label">
+                            Lung-RADS
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="dist/semantic.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
     <script type="text/javascript">
     function calculate_rads() {
-      size = $('#size').val();
-      lung_rads = ''
-      texture = $('#texture:checked').val();
-      others = $('#others:checked').val();
+        size = $('#size input').val();
+        solid_size = $('#solid_size input').val();
+        solid_others = $('#solid_others :checked').val();
+        texture = $('#texture :checked').val();
+        exam = $('#exam :checked').val();
+        others = $('#others :checked').val();
+        lung_rads = ''
 
         if (size > 0) {
-          if (texture.length > 0) {
-            if (texture == 's') {
-              if ( (others == 'new' && size > 4) ||
-                   size < 6) {
-                lung_rads = '2';
-              } else if ( (others == 'new' && (size >= 4 || size < 6)) ||
-                          (size >= 6 || size < 8)) {
-                lung_rads = '3';
-              } else if ( (others == 'new' && (size >= 6 || size < 8)) ||
-                          (others == 'growing' && size < 8) ||
-                          (others == 'no_change' && size >= 8 || size < 15) ) {
-                lung_rads = '4A';
-              } else if ( size >= 15 ||
-                          (others == 'new' || others == 'growing' && size >= 8) ) {
-                lung_rads = '4B';
-              }
-            } else if (texture == 'ps') {
-              if ( others == 'no_change' && size < 6 ) {
-                lung_rads = '2';
-              } else if ( 1 )
-            } else {
-              if ( size < 20 ||
-                  (size >= 20 && others == 'no_change') ) {
-                lung_rads = '2';
-              } else if ( others == 'new' && size >= 20 ) {
-                lung_rads = '3';
-              }
+            if (texture.length > 0) {
+                switch (texture) {
+                    case 's':
+                        if ((others == 'new' && size < 4) ||
+                            size < 6) {
+                            lung_rads = '2';
+                        } else if ((exam == 'b' && (size >= 6 && size < 8)) ||
+                            (others == 'new' && (size >= 4 && size < 6))) {
+                            lung_rads = '3';
+                        } else if ((others == 'new' && (size >= 6 && size < 8)) ||
+                            (others == 'g' && size < 8) ||
+                            (exam == 'b' && size >= 8 && size < 15)) {
+                            lung_rads = '4A';
+                        } else if (size >= 15 ||
+                            (others == 'new' || others == 'g' && size >= 8)) {
+                            lung_rads = '4B';
+                        } else if (others == 'nc') {
+                            lung_rads = '2';
+                        } else {
+                            lung_rads = '?! s ?!';
+                        }
+                        break;
+                    case 'ps':
+                        if (exam == 'b' && size < 6) {
+                            lung_rads = '2';
+                        } else if ((size >= 6 && solid_size < 6) ||
+                            (size < 6 && others == 'new')) {
+                            lung_rads = '3';
+                        } else if (size >= 6 && (solid_size >= 6 || (solid_others == 'new' || solid_others == 'g' && solid_size < 4))) {
+                            lung_rads = '4A';
+                        } else if (solid_size >= 8 ||
+                            (solid_others == 'new' || solid_others == 'g' && solid_size >= 4)) {
+                            lung_rads = '4B';
+                        } else {
+                            lung_rads = '?! ps ?!';
+                        }
+                        break;
+                    case 'ns':
+                        if (size < 20 ||
+                            (size >= 20 && others == 'nc')) {
+                            lung_rads = '2';
+                        } else if ((exam == 'b' || others == 'new') && size >= 20) {
+                            lung_rads = '3';
+                        } else {
+                            lung_rads = '?! ns ?!';
+                        }
+                        break;
+                    case 'eb':
+                        lung_rads = '4A';
+                        break;
+                    default:
+                        lung_rads = '?! texture ?!';
+                }
+
+                // update innertext
+                $('#lung_rads').text(lung_rads)
             }
-          }
         } else {
             //alert($('#size').val());
             //validationRules = $('.form').form('get validation', 'size')
@@ -142,43 +182,12 @@
         }
     }
 
-    $('.ui.form')
-        .form({
-            size: {
-                identifier: 'size',
-                rules: [{
-                    type: 'integer',
-                    prompt: '請輸入整數'
-                }]
-            },
-            texture: {
-                identifier: 'texture',
-                rules: [{
-                    type: 'checked',
-                    prompt: '請選擇'
-                }]
-            },
-            others: {
-                identifier: 'others',
-                rules: [{
-                    type: 'checked',
-                    prompt: '請選擇'
-                }]
-            }
-        }, {
-            inline: true,
-            on: 'blur',
-            onSuccess: function(){
-              calculate_rads();
-            }
-        });
-
-    $('.ui.checkbox')
-        .checkbox({
-            'onChange': function() {
-                calculate_rads();
-            }
-        });
+    $('input').change(
+        function() {
+            //alert('changed');
+            calculate_rads();
+        }
+    );
     </script>
 </body>
 
