@@ -27,6 +27,20 @@
         padding-left: 0 !important;
         padding-right: 0 !important;
     }
+    .clickable {
+        cursor: pointer;
+    }
+    .clickable .glyphicon {
+        background: rgba(0, 0, 0, 0.15);
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 4px
+    }
+    .panel-heading span {
+        margin-top: -23px;
+        font-size: 15px;
+        margin-right: -9px;
+    }
     </style>
 </head>
 
@@ -37,9 +51,43 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Pulmonary Nodule</h3>
+                        <span class="pull-right clickable"><button type="button" class="btn btn-sm btn-danger" id="btn_clear">Clear</button></span>
+
                     </div>
                     <div class="panel-body">
                         <form class="form-inline">
+                            <div class="" id="specific">
+                                <h5>Specific Calcification</h5>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="specific" id="" value="cp"> Complete
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="specific" id="" value="ct"> Central
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="specific" id="" value="pc"> Popcorn
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="specific" id="" value="cr"> Concentric rings
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="specific" id="" value="fc"> Fat-containing
+                                </label>
+                            </div>
+
+                            <div class="" id="suspicion">
+                                <h5>Suspicion of Lung Cancer</h5>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="suspicion" id="" value="sp"> Spiculation
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="suspicion" id="" value="db"> GGN that doubles in size in 1 year
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="suspicion" id="" value="ln"> Enlarged lymph nodes
+                                </label>
+                            </div>
+
                             <div class="" id="exam">
                                 <h5>Exam</h5>
                                 <label class="radio-inline">
@@ -55,8 +103,8 @@
                                 <label class="radio-inline">
                                     <input type="radio" name="others" id="" value="new"> New
                                 </label>
-                                <label class="radio-inline">
-                                    <input type="radio" name="others" id="" value="g"> Growing
+                                <label class="radio-inline" id="o_growing">
+                                    <input type="radio" name="others" id="" value="g" class=""> Growing
                                 </label>
                                 <label class="radio-inline">
                                     <input type="radio" name="others" id="" value="nc"> No Change
@@ -96,7 +144,7 @@
                                 <label class="radio-inline">
                                     <input type="radio" name="solid_others" id="" value="new"> New
                                 </label>
-                                <label class="radio-inline">
+                                <label class="radio-inline" id="ps_growing">
                                     <input type="radio" name="solid_others" id="" value="g"> Growing
                                 </label>
                             </div>
@@ -183,16 +231,53 @@
         "4X": "> 15%"
     };
 
+    function reset_layout() {
+        $('#lung_rads').text("??")
+        $('#lung_rads_category').text("")
+        $('input:checked').prop('checked', false);
+        $('#size input, #solid_size input').val("");
+
+        $('#others').addClass('hide');
+        $('#solid_others').addClass('hide');
+        $('#lung_rads_descriptor').addClass('hide');
+        $('#lung_rads_management').addClass('hide');
+    }
+
+
+    function update_lung_rads(lung_rads) {
+        lung_rads_no = parseInt(lung_rads)
+        $('#lung_rads').text(lung_rads)
+        if (Number.isInteger(lung_rads_no)) {
+            $('#lung_rads_category').html(lung_rads_category[lung_rads_no] + ' <span class="badge hide" id="malignant_percentage">')
+            $('#malignant_percentage').text(malignant_percentage[lung_rads])
+            $('#lung_rads_descriptor_text').text(lung_rads_descriptor[lung_rads_no])
+            $('#lung_rads_management_text').text(lung_rads_management[lung_rads])
+
+            $('#malignant_percentage').removeClass('hide');
+            $('#lung_rads_descriptor').removeClass('hide');
+            $('#lung_rads_management').removeClass('hide');
+        } else {
+            $('#lung_rads_category').text("")
+            $('#malignant_percentage').addClass('hide');
+            $('#lung_rads_descriptor').addClass('hide');
+            $('#lung_rads_management').addClass('hide');
+        }
+    }
+
     function calculate_rads() {
+        specific = $('#specific :checked')
         size = $('#size input').val();
         solid_size = $('#solid_size input').val();
         solid_others = $('#solid_others :checked').val();
         texture = $('#texture :checked').val();
         exam = $('#exam :checked').val();
         others = $('#others :checked').val();
+        has_suspicion = $('#suspicion :checked').length;
         lung_rads = ''
 
-        if (size > 0) {
+        if (specific.length > 0) {
+            update_lung_rads("1")
+        } else if (size > 0) {
             if (texture.length > 0) {
                 switch (texture) {
                     case 's':
@@ -202,13 +287,19 @@
                         } else if ((exam == 'b' && (size >= 6 && size < 8)) ||
                             (others == 'new' && (size >= 4 && size < 6))) {
                             lung_rads = '3';
+                            if (has_suspicion)
+                                lung_rads = '4X';
                         } else if ((others == 'new' && (size >= 6 && size < 8)) ||
                             (others == 'g' && size < 8) ||
                             (exam == 'b' && size >= 8 && size < 15)) {
                             lung_rads = '4A';
+                            if (has_suspicion)
+                                lung_rads = '4X';
                         } else if (size >= 15 ||
                             (others == 'new' || others == 'g' && size >= 8)) {
                             lung_rads = '4B';
+                            if (has_suspicion)
+                                lung_rads = '4X';
                         } else if (others == 'nc') {
                             lung_rads = '2';
                         } else {
@@ -225,17 +316,23 @@
                             if (exam == 'f' && others == 'nc') {
                                 lung_rads = '2';
                             }
+                            if (has_suspicion)
+                                lung_rads = '4X';
                         } else if (solid_size >= 8 ||
                             (solid_others == 'new' || solid_others == 'g' && solid_size >= 4)) {
                             lung_rads = '4B';
                             if (exam == 'f' && others == 'nc') {
                                 lung_rads = '2';
                             }
+                            if (has_suspicion)
+                                lung_rads = '4X';
                         } else if (size >= 6 && ((solid_size >= 6 && solid_size < 8) || (solid_others == 'new' || solid_others == 'g' && solid_size < 4))) {
                             lung_rads = '4A';
                             if (exam == 'f' && others == 'nc') {
                                 lung_rads = '2';
                             }
+                            if (has_suspicion)
+                                lung_rads = '4X';
                         } else {
                             lung_rads = '?! ps ?!';
                         }
@@ -249,7 +346,9 @@
                             lung_rads = '2';
                         } else if ((exam == 'b' || others == 'new') && size >= 20) {
                             lung_rads = '3';
-                        } else if (others == 'g' && size >= 20) {
+                            if (has_suspicion)
+                                lung_rads = '4X';
+                        } else if ((others == 'g' || has_suspicion) && size >= 20) {
                             lung_rads = '4X';
                         } else {
                             lung_rads = '?! ns ?!';
@@ -263,23 +362,7 @@
                 }
 
                 // update innertext
-                lung_rads_no = parseInt(lung_rads)
-                $('#lung_rads').text(lung_rads)
-                if (Number.isInteger(lung_rads_no)) {
-                    $('#lung_rads_category').html(lung_rads_category[lung_rads_no] + ' <span class="badge hide" id="malignant_percentage">')
-                    $('#malignant_percentage').text(malignant_percentage[lung_rads])
-                    $('#lung_rads_descriptor_text').text(lung_rads_descriptor[lung_rads_no])
-                    $('#lung_rads_management_text').text(lung_rads_management[lung_rads])
-
-                    $('#malignant_percentage').removeClass('hide');
-                    $('#lung_rads_descriptor').removeClass('hide');
-                    $('#lung_rads_management').removeClass('hide');
-                } else {
-                    $('#lung_rads_category').text("")
-                    $('#malignant_percentage').addClass('hide');
-                    $('#lung_rads_descriptor').addClass('hide');
-                    $('#lung_rads_management').addClass('hide');
-                }
+                update_lung_rads(lung_rads)
             }
         } else {
 
@@ -316,14 +399,9 @@
 
     $('#size input').change(
         function() {
-            $('#lung_rads').text("??")
-            $('#lung_rads_category').text("")
-
-            $('#lung_rads_descriptor').addClass('hide');
-            $('#lung_rads_management').addClass('hide');
+            calculate_rads();
         }
     );
-
 
     $('input').change(
         function() {
@@ -331,6 +409,23 @@
             calculate_rads();
         }
     );
+
+    $('#btn_clear').click(
+        function() {
+            reset_layout();
+        }
+    );
+
+    $('#ps_growing').tooltip({
+        'trigger':'hover',
+        'title': 'an increase in size of > 1.5 mm',
+        'container': '#solid_others'
+    });
+    $('#o_growing').tooltip({
+        'trigger':'hover',
+        'title': 'an increase in size of > 1.5 mm',
+        'container': '#others'
+    });
     </script>
 </body>
 
