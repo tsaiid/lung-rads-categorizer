@@ -40,6 +40,28 @@
                     </div>
                     <div class="panel-body">
                         <form class="form-inline">
+                            <div class="" id="exam">
+                                <h5>Exam</h5>
+                                <label class="radio-inline">
+                                    <input type="radio" name="exam" id="" value="b"> Baseline
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="exam" id="" value="f"> Follow-up
+                                </label>
+                            </div>
+
+                            <div class="hide" id="others">
+                                <h5>Follow-up</h5>
+                                <label class="radio-inline">
+                                    <input type="radio" name="others" id="" value="new"> New
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="others" id="" value="g"> Growing
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="others" id="" value="nc"> No Change
+                                </label>
+                            </div>
 
                             <div class="" id="texture">
                                 <h5>Texture</h5>
@@ -47,7 +69,7 @@
                                     <input type="radio" name="texture" id="" value="s"> Solid
                                 </label>
                                 <label class="radio-inline">
-                                    <input type="radio" name="texture" id="" value="ps"> Part solid
+                                    <input type="radio" name="texture" id="part_solid" value="ps"> Part solid
                                 </label>
                                 <label class="radio-inline">
                                     <input type="radio" name="texture" id="" value="ns"> Non-solid
@@ -65,43 +87,20 @@
                                 <span class="input-group-addon">mm</span>
                             </div>
 
-                            <div class="form-group" id="solid_others">
+                            <div class="form-group hide" id="solid_others">
+                                <div class="input-group" id="solid_size">
+                                    <span class="input-group-addon">Solid</span>
+                                    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                                    <span class="input-group-addon">mm</span>
+                                </div>
                                 <label class="radio-inline">
                                     <input type="radio" name="solid_others" id="" value="new"> New
                                 </label>
                                 <label class="radio-inline">
                                     <input type="radio" name="solid_others" id="" value="g"> Growing
                                 </label>
-
-                                <div class="input-group" id="solid_size">
-                                    <span class="input-group-addon">Solid</span>
-                                    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-                                    <span class="input-group-addon">mm</span>
-                                </div>
                             </div>
-
-                            <div class="" id="exam">
-                                <h5>Exam</h5>
-                                <label class="radio-inline">
-                                    <input type="radio" name="exam" id="" value="b"> Baseline
-                                </label>
-                                <label class="radio-inline">
-                                    <input type="radio" name="exam" id="" value="f"> Follow-up
-                                </label>
-                            </div>
-
-                            <div class="" id="others">
-                                <h5>Follow-up</h5>
-                                <label class="radio-inline">
-                                    <input type="radio" name="others" id="" value="new"> New
-                                </label>
-                                <label class="radio-inline">
-                                    <input type="radio" name="others" id="" value="g"> Growing
-                                </label>
-                                <label class="radio-inline">
-                                    <input type="radio" name="others" id="" value="nc"> No Change
-                                </label>
-                            </div>
+                        </form>
                     </div>
                 </div>
 
@@ -115,26 +114,26 @@
                             <div class="col-xs-offset-1 col-xs-10 lung-rads-box">
                                 <div class="lung-rads-box-header">
                                     <h1 id="lung_rads">?</h1>
-                                    <h5 id="lung_rads_category"></h5>
+                                    <h5 id="lung_rads_category"><span class="badge hide" id="malignant_percentage"></span></h5>
                                     <div class="label">Lung-RADS</div>
                                 </div>
                                 <div class="lung-rads-box-body">
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title">Descriptor</h3>
-  </div>
-  <div class="panel-body">
-                                    <p id="lung_rads_descriptor"></p>
-  </div>
-</div>
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title">Management</h3>
-  </div>
-  <div class="panel-body">
-                                    <p id="lung_rads_management"></p>
-  </div>
-</div>
+                                    <div class="panel panel-default hide" id="lung_rads_descriptor">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">Descriptor</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <p id="lung_rads_descriptor_text"></p>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-default hide" id="lung_rads_management">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">Management</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <p id="lung_rads_management_text"></p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -164,13 +163,25 @@
         "Findings for which additional diagnostic testing and/or tissue sampling if recommended",
     ];
 
-    lung_rads_management = [
-        "Additional lung cancer screening CT images and/or comparison to prior chest CT examinations is needed",
-        "Continue annual screening with LDCT in 12 months",
-        "6 month LDCT",
-        "3 month LDCT; PET/CT may be used when there is a ≥ 8 mm solid component",
-        "Chest CT with or without contrast, PET/CT and/or tissue sampling depending on the *probability of malignancy and comorbidities. PET/CT may be used when there is a ≥ 8 mm solid component"
-    ];
+    lung_rads_management = {
+        "0": "Additional lung cancer screening CT images and/or comparison to prior chest CT examinations is needed",
+        "1": "Continue annual screening with LDCT in 12 months",
+        "2": "Continue annual screening with LDCT in 12 months",
+        "3": "6 month LDCT",
+        "4A": "3 month LDCT; PET/CT may be used when there is a ≥ 8 mm solid component",
+        "4B": "Chest CT with or without contrast, PET/CT and/or tissue sampling depending on the *probability of malignancy and comorbidities. PET/CT may be used when there is a ≥ 8 mm solid component",
+        "4X": "Chest CT with or without contrast, PET/CT and/or tissue sampling depending on the *probability of malignancy and comorbidities. PET/CT may be used when there is a ≥ 8 mm solid component"
+    };
+
+    malignant_percentage = {
+        "0": "n/a",
+        "1": "n/a",
+        "2": "< 1%",
+        "3": "1–2%",
+        "4A": "5–15%",
+        "4B": "> 15%",
+        "4X": "> 15%"
+    };
 
     function calculate_rads() {
         size = $('#size input').val();
@@ -205,17 +216,30 @@
                         }
                         break;
                     case 'ps':
-                        if (exam == 'b' && size < 6) {
+                        if ((exam == 'b' && size < 6) ||
+                            (others == 'new' && size < 6)) {
                             lung_rads = '2';
                         } else if ((size >= 6 && solid_size < 6) ||
                             (size < 6 && others == 'new')) {
                             lung_rads = '3';
-                        } else if (size >= 6 && (solid_size >= 6 || (solid_others == 'new' || solid_others == 'g' && solid_size < 4))) {
-                            lung_rads = '4A';
+                            if (exam == 'f' && others == 'nc') {
+                                lung_rads = '2';
+                            }
                         } else if (solid_size >= 8 ||
                             (solid_others == 'new' || solid_others == 'g' && solid_size >= 4)) {
                             lung_rads = '4B';
+                            if (exam == 'f' && others == 'nc') {
+                                lung_rads = '2';
+                            }
+                        } else if (size >= 6 && ((solid_size >= 6 && solid_size < 8) || (solid_others == 'new' || solid_others == 'g' && solid_size < 4))) {
+                            lung_rads = '4A';
+                            if (exam == 'f' && others == 'nc') {
+                                lung_rads = '2';
+                            }
                         } else {
+                            lung_rads = '?! ps ?!';
+                        }
+                        if (!Number.isInteger(parseInt(lung_rads))) {
                             lung_rads = '?! ps ?!';
                         }
                         break;
@@ -225,6 +249,8 @@
                             lung_rads = '2';
                         } else if ((exam == 'b' || others == 'new') && size >= 20) {
                             lung_rads = '3';
+                        } else if (others == 'g' && size >= 20) {
+                            lung_rads = '4X';
                         } else {
                             lung_rads = '?! ns ?!';
                         }
@@ -239,16 +265,65 @@
                 // update innertext
                 lung_rads_no = parseInt(lung_rads)
                 $('#lung_rads').text(lung_rads)
-                $('#lung_rads_category').text(lung_rads_category[lung_rads_no])
-                $('#lung_rads_descriptor').text(lung_rads_descriptor[lung_rads_no])
-                $('#lung_rads_management').text(lung_rads_management[lung_rads_no])
+                if (Number.isInteger(lung_rads_no)) {
+                    $('#lung_rads_category').html(lung_rads_category[lung_rads_no] + ' <span class="badge hide" id="malignant_percentage">')
+                    $('#malignant_percentage').text(malignant_percentage[lung_rads])
+                    $('#lung_rads_descriptor_text').text(lung_rads_descriptor[lung_rads_no])
+                    $('#lung_rads_management_text').text(lung_rads_management[lung_rads])
+
+                    $('#malignant_percentage').removeClass('hide');
+                    $('#lung_rads_descriptor').removeClass('hide');
+                    $('#lung_rads_management').removeClass('hide');
+                } else {
+                    $('#lung_rads_category').text("")
+                    $('#malignant_percentage').addClass('hide');
+                    $('#lung_rads_descriptor').addClass('hide');
+                    $('#lung_rads_management').addClass('hide');
+                }
             }
         } else {
-            //alert($('#size').val());
-            //validationRules = $('.form').form('get validation', 'size')
-            //alert($.fn.form.settings.rules);
+
         }
     }
+
+    $('#texture input').change(
+        function() {
+            if ($('#texture :checked').val() == 'ps') {
+                $('#solid_others').removeClass('hide');
+            } else {
+                $('#solid_others').addClass('hide');
+            }
+        }
+    );
+
+    $('#exam input').change(
+        function() {
+            if ($('#exam :checked').val() == 'f') {
+                $('#others').removeClass('hide');
+            } else {
+                $('#others').addClass('hide');
+            }
+        }
+    );
+
+    $('#solid_size input').change(
+        function() {
+            if ($(this).val().length == 0) {
+                $('#solid_others input').prop('checked', false);
+            }
+        }
+    );
+
+    $('#size input').change(
+        function() {
+            $('#lung_rads').text("??")
+            $('#lung_rads_category').text("")
+
+            $('#lung_rads_descriptor').addClass('hide');
+            $('#lung_rads_management').addClass('hide');
+        }
+    );
+
 
     $('input').change(
         function() {
