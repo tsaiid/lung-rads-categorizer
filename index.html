@@ -75,6 +75,19 @@
                                 </label>
                             </div>
 
+                            <div class="" id="suspicion">
+                                <h5>Suspicion of Lung Cancer</h5>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="suspicion" id="" value="sp"> Spiculation
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="suspicion" id="" value="db"> GGN that doubles in size in 1 year
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="suspicion" id="" value="ln"> Enlarged lymph nodes
+                                </label>
+                            </div>
+
                             <div class="" id="exam">
                                 <h5>Exam</h5>
                                 <label class="radio-inline">
@@ -90,8 +103,8 @@
                                 <label class="radio-inline">
                                     <input type="radio" name="others" id="" value="new"> New
                                 </label>
-                                <label class="radio-inline">
-                                    <input type="radio" name="others" id="" value="g"> Growing
+                                <label class="radio-inline" id="o_growing">
+                                    <input type="radio" name="others" id="" value="g" class=""> Growing
                                 </label>
                                 <label class="radio-inline">
                                     <input type="radio" name="others" id="" value="nc"> No Change
@@ -131,7 +144,7 @@
                                 <label class="radio-inline">
                                     <input type="radio" name="solid_others" id="" value="new"> New
                                 </label>
-                                <label class="radio-inline">
+                                <label class="radio-inline" id="ps_growing">
                                     <input type="radio" name="solid_others" id="" value="g"> Growing
                                 </label>
                             </div>
@@ -225,6 +238,7 @@
         $('#size input, #solid_size input').val("");
 
         $('#others').addClass('hide');
+        $('#solid_others').addClass('hide');
         $('#lung_rads_descriptor').addClass('hide');
         $('#lung_rads_management').addClass('hide');
     }
@@ -258,6 +272,7 @@
         texture = $('#texture :checked').val();
         exam = $('#exam :checked').val();
         others = $('#others :checked').val();
+        has_suspicion = $('#suspicion :checked').length;
         lung_rads = ''
 
         if (specific.length > 0) {
@@ -319,7 +334,7 @@
                             lung_rads = '2';
                         } else if ((exam == 'b' || others == 'new') && size >= 20) {
                             lung_rads = '3';
-                        } else if (others == 'g' && size >= 20) {
+                        } else if ((others == 'g' || has_suspicion) && size >= 20) {
                             lung_rads = '4X';
                         } else {
                             lung_rads = '?! ns ?!';
@@ -386,6 +401,17 @@
             reset_layout();
         }
     );
+
+    $('#ps_growing').tooltip({
+        'trigger':'hover',
+        'title': 'an increase in size of > 1.5 mm',
+        'container': '#solid_others'
+    });
+    $('#o_growing').tooltip({
+        'trigger':'hover',
+        'title': 'an increase in size of > 1.5 mm',
+        'container': '#others'
+    });
     </script>
 </body>
 
