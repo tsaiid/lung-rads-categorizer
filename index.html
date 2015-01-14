@@ -27,6 +27,20 @@
         padding-left: 0 !important;
         padding-right: 0 !important;
     }
+    .clickable {
+        cursor: pointer;
+    }
+    .clickable .glyphicon {
+        background: rgba(0, 0, 0, 0.15);
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 4px
+    }
+    .panel-heading span {
+        margin-top: -23px;
+        font-size: 15px;
+        margin-right: -9px;
+    }
     </style>
 </head>
 
@@ -37,9 +51,30 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Pulmonary Nodule</h3>
+                        <span class="pull-right clickable"><button type="button" class="btn btn-sm btn-danger" id="btn_clear">Clear</button></span>
+
                     </div>
                     <div class="panel-body">
                         <form class="form-inline">
+                            <div class="" id="specific">
+                                <h5>Specific Calcification</h5>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="specific" id="" value="cp"> Complete
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="specific" id="" value="ct"> Central
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="specific" id="" value="pc"> Popcorn
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="specific" id="" value="cr"> Concentric rings
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="specific" id="" value="fc"> Fat-containing
+                                </label>
+                            </div>
+
                             <div class="" id="exam">
                                 <h5>Exam</h5>
                                 <label class="radio-inline">
@@ -183,7 +218,40 @@
         "4X": "> 15%"
     };
 
+    function reset_layout() {
+        $('#lung_rads').text("??")
+        $('#lung_rads_category').text("")
+        $('input:checked').prop('checked', false);
+        $('#size input, #solid_size input').val("");
+
+        $('#others').addClass('hide');
+        $('#lung_rads_descriptor').addClass('hide');
+        $('#lung_rads_management').addClass('hide');
+    }
+
+
+    function update_lung_rads(lung_rads) {
+        lung_rads_no = parseInt(lung_rads)
+        $('#lung_rads').text(lung_rads)
+        if (Number.isInteger(lung_rads_no)) {
+            $('#lung_rads_category').html(lung_rads_category[lung_rads_no] + ' <span class="badge hide" id="malignant_percentage">')
+            $('#malignant_percentage').text(malignant_percentage[lung_rads])
+            $('#lung_rads_descriptor_text').text(lung_rads_descriptor[lung_rads_no])
+            $('#lung_rads_management_text').text(lung_rads_management[lung_rads])
+
+            $('#malignant_percentage').removeClass('hide');
+            $('#lung_rads_descriptor').removeClass('hide');
+            $('#lung_rads_management').removeClass('hide');
+        } else {
+            $('#lung_rads_category').text("")
+            $('#malignant_percentage').addClass('hide');
+            $('#lung_rads_descriptor').addClass('hide');
+            $('#lung_rads_management').addClass('hide');
+        }
+    }
+
     function calculate_rads() {
+        specific = $('#specific :checked')
         size = $('#size input').val();
         solid_size = $('#solid_size input').val();
         solid_others = $('#solid_others :checked').val();
@@ -192,7 +260,9 @@
         others = $('#others :checked').val();
         lung_rads = ''
 
-        if (size > 0) {
+        if (specific.length > 0) {
+            update_lung_rads("1")
+        } else if (size > 0) {
             if (texture.length > 0) {
                 switch (texture) {
                     case 's':
@@ -263,23 +333,7 @@
                 }
 
                 // update innertext
-                lung_rads_no = parseInt(lung_rads)
-                $('#lung_rads').text(lung_rads)
-                if (Number.isInteger(lung_rads_no)) {
-                    $('#lung_rads_category').html(lung_rads_category[lung_rads_no] + ' <span class="badge hide" id="malignant_percentage">')
-                    $('#malignant_percentage').text(malignant_percentage[lung_rads])
-                    $('#lung_rads_descriptor_text').text(lung_rads_descriptor[lung_rads_no])
-                    $('#lung_rads_management_text').text(lung_rads_management[lung_rads])
-
-                    $('#malignant_percentage').removeClass('hide');
-                    $('#lung_rads_descriptor').removeClass('hide');
-                    $('#lung_rads_management').removeClass('hide');
-                } else {
-                    $('#lung_rads_category').text("")
-                    $('#malignant_percentage').addClass('hide');
-                    $('#lung_rads_descriptor').addClass('hide');
-                    $('#lung_rads_management').addClass('hide');
-                }
+                update_lung_rads(lung_rads)
             }
         } else {
 
@@ -316,19 +370,20 @@
 
     $('#size input').change(
         function() {
-            $('#lung_rads').text("??")
-            $('#lung_rads_category').text("")
-
-            $('#lung_rads_descriptor').addClass('hide');
-            $('#lung_rads_management').addClass('hide');
+            calculate_rads();
         }
     );
-
 
     $('input').change(
         function() {
             //alert('changed');
             calculate_rads();
+        }
+    );
+
+    $('#btn_clear').click(
+        function() {
+            reset_layout();
         }
     );
     </script>
