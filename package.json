@@ -1,0 +1,23 @@
+{
+  "name": "lung-rads-categorizer",
+  "version": "1.0.0",
+  "description": "A web tool for LungRADS Assessment Categorization",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:tsaiid/lung-rads-categorizer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tsaiid/lung-rads-categorizer/issues"
+  },
+  "homepage": "https://github.com/tsaiid/lung-rads-categorizer",
+  "devDependencies": {
+    "gulp": "^3.8.10",
+    "gulp-connect": "^2.2.0"
+  }
+}
